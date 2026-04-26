@@ -1,8 +1,7 @@
 from textnode import TextNode, TextType
+from htmlnode import *
 
 
-def main():
-        huh = TextNode("Something really", TextType.LINK, "https://www.boot.dev")
-        print(huh)
 
-main()
+
+

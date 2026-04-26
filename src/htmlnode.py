@@ -10,14 +10,14 @@ class HTMLNode():
 
     def props_to_html(self):
         if self.props is None:
-            return "None"
+            return ""
         attributes = ""
         for key, value in self.props.items():
-            attributes += f'{key}="{value}" '
-        return attributes.rstrip()
+            attributes += f' {key}="{value}"'
+        return attributes
     
     def __repr__(self):
-        return f"tag = {self.tag}, value = {self.value}, children = {self.children}, props = {self.props_to_html()}"
+        return f"HTMLNode({self.tag}, {self.value}, children: {self.children}, {self.props})"
     
 class LeafNode(HTMLNode):
     def __init__(self, tag, value, props=None):
@@ -30,7 +30,31 @@ class LeafNode(HTMLNode):
             return self.value
         if self.props is None:
             return f"<{self.tag}>{self.value}</{self.tag}>"
-        return f"<{self.tag} {self.props_to_html()}>{self.value}</{self.tag}>"
+        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
     
     def __repr__(self):
-        return f"tag = {self.tag}, value = {self.value}, props = {self.props_to_html()}"
+        return f"LeafNode({self.tag}, {self.value}, {self.props})"
+    
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props=None):
+        super().__init__(tag, None, children, props)
+    
+    def to_html(self):
+        if not self.tag:
+            raise ValueError("No tag presented")
+
+        if not self.children:
+            raise ValueError("No children present")
+        
+        child = ""
+        for node in self.children:
+            child += node.to_html()
+        
+        
+        html_line = f"<{self.tag}{self.props_to_html()}>{child}</{self.tag}>"
+        return html_line
+    
+    def __repr__(self):
+        return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
+
+
