@@ -1,5 +1,6 @@
 import unittest
 from markdown_to_textnode import *
+from markdown_blocks import markdown_to_blocks
 
 from textnode import TextNode, TextType
 
@@ -187,7 +188,5 @@ class TestInlineMarkdown(unittest.TestCase):
             ],
             nodes,
         )
-
-
 if __name__ == "__main__":
     unittest.main()
