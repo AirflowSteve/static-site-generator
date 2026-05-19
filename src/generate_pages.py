@@ -24,7 +24,6 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
     for item in directories:
         item_path = os.path.join(dir_path_content, item)
         dest_path = os.path.join(dest_dir_path, item)
-        print(directories, item_path, dest_path)
         if os.path.isfile(item_path):
             dest_path = dest_path.replace(".md", ".html")
             generating_page(item_path, template_path, dest_path)
