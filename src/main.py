@@ -5,12 +5,13 @@ import os
 from shutil import copy, rmtree
 from extract_header import extract_title
 from generate_pages import generating_page, generate_pages_recursive
+import sys
 
 def copy_static(dir_path):
     directories = os.listdir(dir_path)
     for directory in directories:
         path_ = os.path.join(dir_path, directory)
-        dest_path = path_.replace("static", "public")
+        dest_path = path_.replace("static", "docs")
         print(f" * {path_} -> {dest_path}")
         
         if os.path.isfile(path_):
@@ -22,16 +23,22 @@ def copy_static(dir_path):
 
 
 def main():
-    public_path = "public"
-    print("Deleting public directory...")
+    if len(sys.argv) < 2:
+        basepath = "/"
+    else:
+        basepath = sys.argv[1]
+
+
+    public_path = "docs"
+    print("Deleting docs directory...")
     if os.path.exists(public_path):
         rmtree(public_path)
     
-    print("Copying static files to public directory...")
+    print("Copying static files to docs directory...")
     os.mkdir(public_path)
     copy_static("static")
 
-    generate_pages_recursive("content", "template.html", "public")
+    generate_pages_recursive("content", "template.html", "docs", basepath)
 
 
 main()
